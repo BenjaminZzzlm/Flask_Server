@@ -16,3 +16,8 @@ algorithm_server_port = 5001
 #config of algorithm server logger
 
 algorithm_server_logger_path = '/disk2/zhanglingming/Flask_Server/Flask_Server/algorithm_server/log/algorithm_server.log'
+
+#config of api
+algorithm_server_sync_api = '/algorithm_server/sync'
+algorithm_server_async_api = '/algorithm_server/async'
+dispatcher_server_result_api = '/dispatcher_server/result'
