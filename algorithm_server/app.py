@@ -119,7 +119,6 @@ def async_api():
         output:{
             "code": int,  #定义调用状态的返回码用于判断算法调用成功与否
             "message": str, #接口调用状态返回信息
-            "result": list, #根据算法实际使用情况定义返回结果
             ...
         }
     """
@@ -171,7 +170,7 @@ def async_api():
             # ------------------------------异步调用算法---------------------------------
             try:
                 #使用一个子线程去异步执行async_and_res函数，该函数用于调用算法，并将结果通过request返回给调用者
-                threading.Thread(target=async_and_res,args=(image_data,)).start()
+                threading.Thread(target=async_and_res,args=(image_data,req_data)).start()
                 pass
             except Exception as e:
                 raise Exception(f"model error:{e}")
@@ -184,14 +183,8 @@ def async_api():
     return flask.jsonify(res_data)
 
 #提供子线程的函数，用于异步调用算法，并将结果通过request返回给调用者
-def async_and_res(data):
-    res_data = {
-        "code": 0,
-        "message": "success",
-        "result": {
-            "label": None
-        }
-    }
+def async_and_res(data,res_data):
+    res_data["result"] = {}
     result = model(data)
     res_data["result"]["label"] = result
     tmp_api = 'http://'+dispatcher_server_result_api+':'+str(dispatcher_server_port)+dispatcher_server_result_api
